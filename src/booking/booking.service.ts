@@ -1,26 +1,46 @@
-import { Injectable } from '@nestjs/common';
+/* eslint-disable prettier/prettier */
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Booking } from './booking.model';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { UpdateBookingDto } from './dto/update-booking.dto';
 
 @Injectable()
 export class BookingService {
-  create(createBookingDto: CreateBookingDto) {
-    return 'This action adds a new booking';
+  async create(createBookingDto: CreateBookingDto) {
+    const booking = new Booking();
+    Object.assign(booking, createBookingDto);
+    await booking.save();
+    return booking;
   }
 
-  findAll() {
-    return `This action returns all booking`;
+  async findAll(): Promise<Booking[]> {
+    return Booking.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} booking`;
+  async findOne(id: number) {
+    const booking = await Booking.findByPk(id);
+    if (!booking) {
+      throw new NotFoundException(`Booking with ID ${id} not found`);
+    }
+    return booking;
   }
 
-  update(id: number, updateBookingDto: UpdateBookingDto) {
-    return `This action updates a #${id} booking`;
+  async update(id: number, updateBookingDto: UpdateBookingDto) {
+    const booking = await Booking.findByPk(id);
+    if (!booking) {
+      throw new NotFoundException(`Booking with ID ${id} not found`);
+    }
+    Object.assign(booking, updateBookingDto);
+    await booking.save();
+    return booking;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} booking`;
+  async remove(id: number) {
+    const booking = await Booking.findByPk(id);
+    if (!booking) {
+      throw new NotFoundException(`Booking with ID ${id} not found`);
+    }
+    await booking.destroy();
+    return { message: `Booking with ID ${id} removed successfully` };
   }
 }

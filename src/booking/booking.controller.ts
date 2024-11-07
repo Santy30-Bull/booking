@@ -1,34 +1,36 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+/* eslint-disable prettier/prettier */
+import { Controller } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 import { BookingService } from './booking.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { UpdateBookingDto } from './dto/update-booking.dto';
 
-@Controller('booking')
+@Controller()
 export class BookingController {
   constructor(private readonly bookingService: BookingService) {}
 
-  @Post()
-  create(@Body() createBookingDto: CreateBookingDto) {
+  @MessagePattern({ cmd: 'create_booking' })
+  async create(@Payload() createBookingDto: CreateBookingDto) {
     return this.bookingService.create(createBookingDto);
   }
 
-  @Get()
-  findAll() {
+  @MessagePattern({ cmd: 'find_all_bookings' })
+  async findAll() {
     return this.bookingService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.bookingService.findOne(+id);
+  @MessagePattern({ cmd: 'find_one_booking' })
+  async findOne(@Payload() payload: { id: string }) {
+    return this.bookingService.findOne(+payload.id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBookingDto: UpdateBookingDto) {
-    return this.bookingService.update(+id, updateBookingDto);
+  @MessagePattern({ cmd: 'update_booking' })
+  async update(@Payload() payload: { id: string; data: UpdateBookingDto }) {
+    return this.bookingService.update(+payload.id, payload.data);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.bookingService.remove(+id);
+  @MessagePattern({ cmd: 'delete_booking' })
+  async remove(@Payload() payload: { id: string }) {
+    return this.bookingService.remove(+payload.id);
   }
 }
