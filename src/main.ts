@@ -14,7 +14,7 @@ async function bootstrap() {
   const microservice =
     await NestFactory.createMicroservice<MicroserviceOptions>(BookingModule, {
       transport: Transport.NATS,
-      options: { servers: [configService.get<string>('NATS_SERVERS')] }, // Obtener la URL del servidor NATS desde el .env
+      options: { servers: [configService.get<string>('NATS_SERVER_URL')] }, // Obtener la URL del servidor NATS desde el .env
     });
 
   // Configurar el ValidationPipe global para el microservicio
