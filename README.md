@@ -25,13 +25,13 @@ Debes crear un archivo `.env` en el directorio raíz del proyecto con las siguie
 
 ```bash
 # Configuración del puerto
-PORT=3001
+PORT=tu puerto
 
 # Configuración de la base de datos de Bookings (SQLite)
-BOOKINGS_DB_NAME=./database/bookings.db  # Ubicación del archivo SQLite
+BOOKINGS_DB_NAME= tu nombre de base de datos
 
 # Configuración de NATS
-NATS_SERVER_URL="nats://localhost:4222"
+NATS_SERVER_URL= tu url de tu base de datos
 ```
 ## Instalación
 
@@ -52,7 +52,7 @@ Ejecución
 Inicia el microservicio:
 
 ```bash
-npm start
+npm run start:dev
 El servicio estará disponible en el puerto definido en el archivo .env (por defecto: 3001).
 ```
 
