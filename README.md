@@ -38,8 +38,8 @@ NATS_SERVER_URL="nats://localhost:4222"
 Clona este repositorio:
 
 ```bash
-git clone <url-del-repositorio>
-cd <nombre-del-repositorio>
+git clone https://github.com/Santy30-Bull/booking.git
+cd booking
 ```
 Instala las dependencias:
 
